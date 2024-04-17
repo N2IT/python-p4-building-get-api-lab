@@ -41,6 +41,8 @@ def bakery_by_id(id):
         200
     )
 
+    
+
     return response
 
 @app.route('/baked_goods/by_price')
@@ -59,14 +61,15 @@ def baked_goods_by_price():
     return response
     
 
-
 @app.route('/baked_goods/most_expensive')
 def most_expensive_baked_good():
-    prices = [baked_goods_by_price()]
-    highest_price = max(prices)
+    # return single most expensive baked good as JSON
+    baked_goods = [baked_good.to_dict() for baked_good in BakedGood.query.order_by(BakedGood.price.desc()).all()]
+
+    most_expensive = baked_goods[0]
 
     response = make_response(
-        highest_price,
+        most_expensive,
         200
     )
 
